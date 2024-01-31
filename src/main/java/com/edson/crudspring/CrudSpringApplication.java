@@ -17,37 +17,37 @@ public class CrudSpringApplication {
     @Bean
     CommandLineRunner initDataBase(CourseRepository courseRepository) {
         return args -> {
-//            courseRepository.deleteAll();
-//
-//            Course c = new Course();
-//            c.setName("Angular com Spring");
-//            c.setCategory("Front-end");
-//            courseRepository.save(c);
-//
-//            Course d = new Course();
-//            d.setName("Java");
-//            d.setCategory("Back-end");
-//            courseRepository.save(d);
-//
-//            Course e = new Course();
-//            e.setName("JavaScript");
-//            e.setCategory("Back-end");
-//            courseRepository.save(e);
-//
-//            Course f = new Course();
-//            f.setName("Vue");
-//            f.setCategory("Front-end");
-//            courseRepository.save(f);
-//
-//            Course g = new Course();
-//            g.setName("React Js");
-//            g.setCategory("Front-end");
-//            courseRepository.save(g);
-//
-//            Course h = new Course();
-//            h.setName("Pyton");
-//            h.setCategory("Back-end");
-//            courseRepository.save(h);
+            courseRepository.deleteAll();
+
+            Course c = new Course();
+            c.setName("Angular com Spring");
+            c.setCategory("Front-end");
+            courseRepository.save(c);
+
+            Course d = new Course();
+            d.setName("Java Basico");
+            d.setCategory("Back-end");
+            courseRepository.save(d);
+
+            Course e = new Course();
+            e.setName("JavaScript");
+            e.setCategory("Back-end");
+            courseRepository.save(e);
+
+            Course f = new Course();
+            f.setName("Vue JS");
+            f.setCategory("Front-end");
+            courseRepository.save(f);
+
+            Course g = new Course();
+            g.setName("React Js");
+            g.setCategory("Front-end");
+            courseRepository.save(g);
+
+            Course h = new Course();
+            h.setName("Pyton");
+            h.setCategory("Back-end");
+            courseRepository.save(h);
 
 //            for (int i = 0; i < 9999; i++) {
 //                Course j = new Course();
