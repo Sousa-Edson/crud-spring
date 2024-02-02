@@ -2,6 +2,7 @@ package com.edson.crudspring.controller;
 
 import com.edson.crudspring.model.Course;
 import com.edson.crudspring.repository.CourseRepository;
+import com.edson.crudspring.service.CourseService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -21,17 +22,16 @@ import java.util.List;
 public class CourseController {
 
     private final CourseRepository courseRepository;
+    private final CourseService courseService;
 
     @GetMapping
     public @ResponseBody List<Course> list() {
-        return courseRepository.findAll();
+        return courseService.list();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Course> findById(@PathVariable("id") @NotNull @Positive Long id) {
-        return courseRepository.findById(id)
-                .map(recordFound -> ResponseEntity.ok().body(recordFound))
-                .orElse(ResponseEntity.notFound().build());
+        return courseRepository.findById(id).map(recordFound -> ResponseEntity.ok().body(recordFound)).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -42,25 +42,19 @@ public class CourseController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Course> update(@PathVariable("id") @NotNull @Positive Long id, @RequestBody Course course) {
-        return courseRepository.findById(id)
-                .map(recordFound ->
-                {
-                    recordFound.setName(course.getName());
-                    recordFound.setCategory(course.getCategory());
-                    Course updated = courseRepository.save(recordFound);
-                    return ResponseEntity.ok().body(updated);
-                })
-                .orElse(ResponseEntity.notFound().build());
+        return courseRepository.findById(id).map(recordFound -> {
+            recordFound.setName(course.getName());
+            recordFound.setCategory(course.getCategory());
+            Course updated = courseRepository.save(recordFound);
+            return ResponseEntity.ok().body(updated);
+        }).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") @NotNull @Positive Long id) {
-        return courseRepository.findById(id)
-                .map(recordFound ->
-                {
-                    courseRepository.deleteById(id);
-                    return ResponseEntity.noContent().<Void>build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+        return courseRepository.findById(id).map(recordFound -> {
+            courseRepository.deleteById(id);
+            return ResponseEntity.noContent().<Void>build();
+        }).orElse(ResponseEntity.notFound().build());
     }
 }
