@@ -21,7 +21,6 @@ import java.util.List;
 @AllArgsConstructor
 public class CourseController {
 
-    private final CourseRepository courseRepository;
     private final CourseService courseService;
 
     @GetMapping
@@ -31,30 +30,28 @@ public class CourseController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Course> findById(@PathVariable("id") @NotNull @Positive Long id) {
-        return courseRepository.findById(id).map(recordFound -> ResponseEntity.ok().body(recordFound)).orElse(ResponseEntity.notFound().build());
+        return courseService.findById(id).map(recordFound -> ResponseEntity.ok().body(recordFound)).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public Course create(@RequestBody @Valid Course course) {
-        return courseRepository.save(course);
+        return courseService.create(course);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Course> update(@PathVariable("id") @NotNull @Positive Long id, @RequestBody Course course) {
-        return courseRepository.findById(id).map(recordFound -> {
-            recordFound.setName(course.getName());
-            recordFound.setCategory(course.getCategory());
-            Course updated = courseRepository.save(recordFound);
-            return ResponseEntity.ok().body(updated);
+    public ResponseEntity<Course> update(@PathVariable("id") @NotNull @Positive Long id, @Valid @RequestBody Course course) {
+        return courseService.update(id, course).map(recordFound -> {
+            return ResponseEntity.ok().body(recordFound);
         }).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") @NotNull @Positive Long id) {
-        return courseRepository.findById(id).map(recordFound -> {
-            courseRepository.deleteById(id);
+
+        if (courseService.delete(id)) {
             return ResponseEntity.noContent().<Void>build();
-        }).orElse(ResponseEntity.notFound().build());
+        }
+        return ResponseEntity.notFound().build();
     }
 }
