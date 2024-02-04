@@ -2,6 +2,7 @@ package com.edson.crudspring;
 
 import com.edson.crudspring.enums.Category;
 import com.edson.crudspring.model.Course;
+import com.edson.crudspring.model.Lesson;
 import com.edson.crudspring.repository.CourseRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -23,6 +24,13 @@ public class CrudSpringApplication {
             Course c = new Course();
             c.setName("Angular com Spring");
             c.setCategory(Category.BACK_END);
+
+            Lesson  l = new Lesson();
+            l.setName("Teste");
+            l.setYoutubeUrl("watch?v=QH2-TGUlwu4");
+            l.setCourse(c);
+
+            c.getLessons().add(l);
             courseRepository.save(c);
 
 
