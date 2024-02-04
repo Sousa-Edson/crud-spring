@@ -26,11 +26,17 @@ public class CrudSpringApplication {
             c.setCategory(Category.BACK_END);
 
             Lesson  l = new Lesson();
-            l.setName("Teste");
+            l.setName("Primeira aula");
             l.setYoutubeUrl("watch?v=QH2-TGUlwu4");
             l.setCourse(c);
-
             c.getLessons().add(l);
+
+            Lesson  j = new Lesson();
+            j.setName("Segunda aula");
+            j.setYoutubeUrl("watch?v=QH2-u4332");
+            j.setCourse(c);
+            c.getLessons().add(j);
+
             courseRepository.save(c);
 
 
