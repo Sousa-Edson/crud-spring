@@ -1,9 +1,14 @@
 package com.edson.crudspring.dto.mapper;
 
 import com.edson.crudspring.dto.CourseDTO;
+import com.edson.crudspring.dto.LessonDTO;
 import com.edson.crudspring.enums.Category;
 import com.edson.crudspring.model.Course;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.stylesheets.LinkStyle;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CourseMapper {
@@ -11,10 +16,15 @@ public class CourseMapper {
         if (course == null) {
             return null;
         }
+
+        List<LessonDTO> lessons = course.getLessons()
+                .stream()
+                .map(lesson -> new LessonDTO(lesson.getId(), lesson.getName(), lesson.getYoutubeUrl())).collect(Collectors.toList());
+
         return new CourseDTO(course.getId(),
                 course.getName(),
                 course.getCategory().getValue(),
-                course.getLessons());
+                lessons);
     }
 
     public Course toEntity(CourseDTO courseDTO) {
