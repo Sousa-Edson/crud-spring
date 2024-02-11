@@ -13,4 +13,6 @@ public class ApplicationControllerAdvice {
     public String handleNotFoundException(RecordNotFoundException ex) {
         return "Error: " + ex.getMessage();
     }
+
+
 }
