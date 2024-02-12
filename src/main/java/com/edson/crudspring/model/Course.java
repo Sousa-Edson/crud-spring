@@ -39,6 +39,7 @@ public class Course {
 
     @NotNull
     @Column(length = 10, nullable = false)
+//    @Length(min = 5, max = 20)
     @Convert(converter = CategoryConverter.class)
     private Category category;
 
