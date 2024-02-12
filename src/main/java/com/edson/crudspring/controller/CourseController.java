@@ -3,15 +3,19 @@ package com.edson.crudspring.controller;
 import com.edson.crudspring.dto.CourseDTO;
 import com.edson.crudspring.dto.CoursePageDTO;
 import com.edson.crudspring.service.CourseService;
+
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+
+
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 
 @Validated
 @CrossOrigin(origins = "*")
@@ -26,8 +30,9 @@ public class CourseController {
     }
 
     @GetMapping
-    public CoursePageDTO list(@RequestParam @PositiveOrZero int page, @RequestParam int pageSize) {
-                return courseService.list(page, pageSize);
+    public CoursePageDTO list(@RequestParam(defaultValue = "0") @PositiveOrZero int page,
+                              @RequestParam(defaultValue = "10") @Positive @Max(100) int pageSize) {
+        return courseService.list(page, pageSize);
     }
 
     @GetMapping("/{id}")

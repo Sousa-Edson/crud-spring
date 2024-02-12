@@ -7,8 +7,10 @@ import com.edson.crudspring.exception.RecordNotFoundException;
 import com.edson.crudspring.model.Course;
 import com.edson.crudspring.repository.CourseRepository;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,7 @@ public class CourseService {
         courseMapper = new CourseMapper();
     }
 
-    public CoursePageDTO list(int page, int pageSize) {
+    public CoursePageDTO list(@PositiveOrZero int page, @Positive @Max(100) int pageSize) {
         Page<Course> pageCourse = courseRepository.findAll(PageRequest.of(page, pageSize));
         List<CourseDTO> courses = pageCourse.get().map(courseMapper::toDTO).collect(Collectors.toList());
         return new CoursePageDTO(courses, pageCourse.getTotalElements(), pageCourse.getTotalPages());
