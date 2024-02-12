@@ -1,6 +1,7 @@
 package com.edson.crudspring.service;
 
 import com.edson.crudspring.dto.CourseDTO;
+import com.edson.crudspring.dto.CoursePageDTO;
 import com.edson.crudspring.dto.mapper.CourseMapper;
 import com.edson.crudspring.exception.RecordNotFoundException;
 import com.edson.crudspring.model.Course;
@@ -8,6 +9,8 @@ import com.edson.crudspring.repository.CourseRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -25,9 +28,14 @@ public class CourseService {
         courseMapper = new CourseMapper();
     }
 
-    public List<CourseDTO> list() {
-        return courseRepository.findAll().stream().map(courseMapper::toDTO).collect(Collectors.toList());
+    public CoursePageDTO list(int page, int pageSize) {
+        Page<Course> pageCourse = courseRepository.findAll(PageRequest.of(page, pageSize));
+        List<CourseDTO> courses = pageCourse.get().map(courseMapper::toDTO).collect(Collectors.toList());
+        return new CoursePageDTO(courses, pageCourse.getTotalElements(), pageCourse.getTotalPages());
     }
+//    public List<CourseDTO> list() {
+//        return courseRepository.findAll().stream().map(courseMapper::toDTO).collect(Collectors.toList());
+//    }
 
     public CourseDTO findById(@NotNull @Positive Long id) {
         return courseRepository.findById(id).map(courseMapper::toDTO).orElseThrow(() -> new RecordNotFoundException(id));
