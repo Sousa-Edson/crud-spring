@@ -1,6 +1,8 @@
 package com.edson.crudspring.dto;
 
 
+import com.edson.crudspring.enums.Category;
+import com.edson.crudspring.enums.validation.ValueOfEnum;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.validation.Valid;
@@ -17,7 +19,7 @@ public record CourseDTO(
         @JsonProperty("_id") Long id,
         @NotBlank @NotNull @Length(min = 5, max = 100)
         String name,
-        @NotNull @NotBlank @Length(max = 10) @Pattern(regexp = "Back-end|Front-end") String category,
+        @NotNull @NotBlank @Length(max = 10) @ValueOfEnum(enumClass = Category.class) String category,
         @NotNull @NotEmpty @Valid List<LessonDTO> lessons) {
 
 }
